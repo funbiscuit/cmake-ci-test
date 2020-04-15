@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.13...3.17)
 
 project(cmake-ci-test LANGUAGES CXX)
 
+if( WIN32 )
+    set(QT_WIN_PATH "C:\\" CACHE STRING "Path to installed qt binaries")
+    message(STATUS "Looking for installed Qt5 at the following path:\n" ${QT_WIN_PATH})
+    set(CMAKE_PREFIX_PATH ${QT_WIN_PATH})
+endif()
+
 find_package(Qt5 COMPONENTS Core Widgets Svg REQUIRED)
 
 

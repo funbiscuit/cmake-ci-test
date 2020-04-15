@@ -5,6 +5,11 @@ dist: xenial
 compiler:
   - gcc
 
+before_install:
+  - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+  - sudo apt-get update -qq
+  - sudo apt-get install qtbase5-dev libqt5svg5-dev
+
 # the install step will take care of deploying a newer cmake version
 install:
   # first we create a directory for the CMake binaries

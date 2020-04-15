@@ -51,7 +51,7 @@ deploy:
     secure: "vJmz+eNqWt2gEcbdynteKgy1CQq/L2BW0o5IaQTZoFcpOXz4wurPJwwFNezisaT/OApXNpqbspCu0SocEQyRvuEnZPFthEbu4y9+ICBF6hZG+cin7NIQAKCaz5341wDsFjQGLyuukVoEIEyJ17Gl0+FVnrpePwLPWF6wyw7nPAx9oeWRCrx7TEE0bdy3HOxwX8Y7/JcWE4Ur30hXyDx1CzI3coUseE1MBkuOZJIwYFbqQJxDgXJio485u2CDXVgTDYCTti9THMiF67/i4W5SMV17PRslRVZIZSOOTz2Ovbz27YDr58xd22FI0qoOZ+Aza5LuzKyh4/dHXLdB5WwmPrKrxyPwssGIL7UYsUd81KXjkkhhTPhTrLmp5vAiDVYyXIGmonuOiZ8A7uvmwiOh4CaJcOKLI5Hdx+9ZZ25Nx3LxGEUBKp16XCAma2d+FF8X/AE/dghjPX2F+bpXZNjsEZw7VkUHq+eCXTpb0TW8MIKVsnKaZaKCJKSlgsw26+ir06N44UH1/0Dvnd+Sii0qm1Bu2Qkw/HXkLZR1/rPKYsnJZOiZARfo9636Qt1R4q2hiHLZb3LKfIQMvatE11+/vuI1DmwLhb9zYEp5/lBHTSCklZu+N4Qqmvf16gI19hNnsg/lyRoYm5F4MNW6qylECPgXAk209CLNvTxYcjM6DmA="
   file: "build/cmake_test"
   skip_cleanup: true
-  draft: true
+#  draft: true
   overwrite: true
-#  on:
-#    tags: true
+  on:
+    tags: true

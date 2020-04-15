@@ -8,5 +8,5 @@ build_script:
   - cd ..
 
 artifacts:
-  - path: build\Release\cmake-test.exe
+  - path: build\Release\cmake_test.exe
     name: App

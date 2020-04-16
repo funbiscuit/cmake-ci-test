@@ -16,20 +16,20 @@ for:
         - image: Visual Studio 2015
 
     build_script:
-      - md build
-      - cd build
-      - cmake -DQT_WIN_PATH=%QT_DIR% -G "Visual Studio 14 2015 Win64" ..
-      - cmake --build . --config Release
-      - cd ..
-      - md bin
-      - md bin\platforms
-      - md bin\styles
-      - copy build\Release\cmake_test.exe bin\cmake_test.exe
-      - copy %QT_DIR%\bin\Qt5Core.dll bin\Qt5Core.dll
-      - copy %QT_DIR%\bin\Qt5Gui.dll bin\Qt5Gui.dll
-      - copy %QT_DIR%\bin\Qt5Widgets.dll bin\Qt5Widgets.dll
-      - copy %QT_DIR%\plugins\platforms\qwindows.dll bin\platforms\qwindows.dll
-      - copy %QT_DIR%\plugins\styles\qwindowsvistastyle.dll bin\styles\qwindowsvistastyle.dll
+      - cmd: md build
+      - cmd: cd build
+      - cmd: cmake -DQT_WIN_PATH=%QT_DIR% -G "Visual Studio 14 2015 Win64" ..
+      - cmd: cmake --build . --config Release
+      - cmd: cd ..
+      - cmd: md bin
+      - cmd: md bin\platforms
+      - cmd: md bin\styles
+      - cmd: copy build\Release\cmake_test.exe bin\cmake_test.exe
+      - cmd: copy %QT_DIR%\bin\Qt5Core.dll bin\Qt5Core.dll
+      - cmd: copy %QT_DIR%\bin\Qt5Gui.dll bin\Qt5Gui.dll
+      - cmd: copy %QT_DIR%\bin\Qt5Widgets.dll bin\Qt5Widgets.dll
+      - cmd: copy %QT_DIR%\plugins\platforms\qwindows.dll bin\platforms\qwindows.dll
+      - cmd: copy %QT_DIR%\plugins\styles\qwindowsvistastyle.dll bin\styles\qwindowsvistastyle.dll
 
     artifacts:
       - path: bin
@@ -41,18 +41,18 @@ for:
         - image: Ubuntu
 
     install:
-      - sudo apt-get update -qq && sudo apt-get install -qq
-      - sudo apt-get -y install -qq gcc g++ cmake
+      - sh: sudo apt-get update -qq && sudo apt-get install -qq
+      - sh: sudo apt-get -y install -qq gcc g++ cmake
 
     build_script:
-      - echo Ubuntu build script
-      - mkdir build
-      - cd build
-      - cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
-      - cmake --build .
-      - cd ..
-      - mkdir -p bin
-      - cp build/cmake_test bin/cmake_test
+      - sh: echo Ubuntu build script
+      - sh: mkdir build
+      - sh: cd build
+      - sh: cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
+      - sh: cmake --build .
+      - sh: cd ..
+      - sh: mkdir -p bin
+      - sh: cp build/cmake_test bin/cmake_test
 
     artifacts:
       - path: bin

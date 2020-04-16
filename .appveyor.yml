@@ -1,28 +1,60 @@
-os: Visual Studio 2015
+image:
+  - Visual Studio 2015
+  - Ubuntu
+
+version: 1.0.{build}
 
 environment:
-  QT_DIR: C:\Qt\5.13.2\msvc2015_64
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      QT_DIR: C:\Qt\5.13.2\msvc2015_64
 
-build_script:
-  - md build
-  - cd build
-  - cmake -DQT_WIN_PATH=%QT_DIR% -G "Visual Studio 14 2015 Win64" ..
-  - cmake --build . --config Release
-  - cd ..
-  - md bin
-  - md bin\platforms
-  - md bin\styles
-  - copy build\Release\cmake_test.exe bin\cmake_test.exe
-  - copy %QT_DIR%\bin\Qt5Core.dll bin\Qt5Core.dll
-  - copy %QT_DIR%\bin\Qt5Gui.dll bin\Qt5Gui.dll
-  - copy %QT_DIR%\bin\Qt5Widgets.dll bin\Qt5Widgets.dll
-  - copy %QT_DIR%\plugins\platforms\qwindows.dll bin\platforms\qwindows.dll
-  - copy %QT_DIR%\plugins\styles\qwindowsvistastyle.dll bin\styles\qwindowsvistastyle.dll
+for:
+  -
+    matrix:
+      only:
+        - image: Visual Studio 2015
 
-artifacts:
-  - path: bin
-    type: zip
-    name: App
+    build_script:
+      - md build
+      - cd build
+      - cmake -DQT_WIN_PATH=%QT_DIR% -G "Visual Studio 14 2015 Win64" ..
+      - cmake --build . --config Release
+      - cd ..
+      - md bin
+      - md bin\platforms
+      - md bin\styles
+      - copy build\Release\cmake_test.exe bin\cmake_test.exe
+      - copy %QT_DIR%\bin\Qt5Core.dll bin\Qt5Core.dll
+      - copy %QT_DIR%\bin\Qt5Gui.dll bin\Qt5Gui.dll
+      - copy %QT_DIR%\bin\Qt5Widgets.dll bin\Qt5Widgets.dll
+      - copy %QT_DIR%\plugins\platforms\qwindows.dll bin\platforms\qwindows.dll
+      - copy %QT_DIR%\plugins\styles\qwindowsvistastyle.dll bin\styles\qwindowsvistastyle.dll
+
+    artifacts:
+      - path: bin
+        type: zip
+        name: App-msvc14-x64
+  -
+    matrix:
+      only:
+        - image: Ubuntu
+
+    build_script:
+      - echo Ubuntu build script
+      - mkdir build
+      - cd build
+      - cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
+      - cmake --build .
+      - cd ..
+      - mkdir -p bin
+      - cp build/cmake_test bin/cmake_test
+
+    artifacts:
+      - path: bin
+        type: zip
+        name: App-linux-x64
+
 
 deploy:
   release: CmakeCITest-v$(appveyor_build_version)
@@ -30,7 +62,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: 6xHQBZVK+RtxmddurGPIg7Kx5vecSN1vVxwbv35EQmsIey4DXDXYhwAW/yLXbNLJ
-  artifact: App
+  artifact: App-msvc14-x64, App-linux-x64
   draft: false
   prerelease: false
   tag: $(APPVEYOR_REPO_TAG_NAME)

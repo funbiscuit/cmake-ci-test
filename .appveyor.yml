@@ -1,22 +1,38 @@
 os: Visual Studio 2015
 
+environment:
+  QT_DIR: C:\Qt\5.13.2\msvc2015_64
+
 build_script:
   - md build
   - cd build
-  - cmake -DQT_WIN_PATH=C:\Qt\5.13.2\msvc2015_64 -G "Visual Studio 14 2015 Win64" ..
+  - cmake -DQT_WIN_PATH=$(QT_DIR) -G "Visual Studio 14 2015 Win64" ..
   - cmake --build . --config Release
   - cd ..
   - md bin
   - md bin\platforms
   - md bin\styles
   - copy build\Release\cmake_test.exe bin\cmake_test.exe
-  - copy C:\Qt\5.13.2\msvc2015_64\bin\Qt5Core.dll bin\Qt5Core.dll
-  - copy C:\Qt\5.13.2\msvc2015_64\bin\Qt5Gui.dll bin\Qt5Gui.dll
-  - copy C:\Qt\5.13.2\msvc2015_64\bin\Qt5Widgets.dll bin\Qt5Widgets.dll
-  - copy C:\Qt\5.13.2\msvc2015_64\plugins\platforms\qwindows.dll bin\platforms\qwindows.dll
-  - copy C:\Qt\5.13.2\msvc2015_64\plugins\styles\qwindowsvistastyle.dll bin\styles\qwindowsvistastyle.dll
+  - copy $(QT_DIR)\bin\Qt5Core.dll bin\Qt5Core.dll
+  - copy $(QT_DIR)\bin\Qt5Gui.dll bin\Qt5Gui.dll
+  - copy $(QT_DIR)\bin\Qt5Widgets.dll bin\Qt5Widgets.dll
+  - copy $(QT_DIR)\plugins\platforms\qwindows.dll bin\platforms\qwindows.dll
+  - copy $(QT_DIR)\plugins\styles\qwindowsvistastyle.dll bin\styles\qwindowsvistastyle.dll
 
 artifacts:
   - path: bin
     type: zip
     name: App
+
+deploy:
+  release: CmakeCITest-v$(appveyor_build_version)
+  description: 'Release description'
+  provider: GitHub
+  auth_token:
+    secure: 6xHQBZVK+RtxmddurGPIg7Kx5vecSN1vVxwbv35EQmsIey4DXDXYhwAW/yLXbNLJ
+  artifact: App
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    APPVEYOR_REPO_TAG: true        # deploy on tag push only

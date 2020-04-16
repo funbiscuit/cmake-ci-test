@@ -53,7 +53,7 @@ for:
   install:
     - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
     - sudo apt-get update -qq
-    - sudo apt-get -y install qtbase5-dev libqt5svg5-dev
+    - sudo apt-get -y install qtbase5-dev libqt5svg5-dev qt5-default
     - mkdir tools && cd tools
     # we use wget to fetch the cmake binaries
     - wget --no-check-certificate https://cmake.org/files/v3.17/cmake-3.17.1-Linux-x86_64.tar.gz
@@ -69,6 +69,7 @@ for:
     # preinstalled CMake with our own.
     - cd ..
     - PATH=tools/cmake-install:tools/cmake-install/bin:$PATH
+    - cmake --version
 #    - sh: sudo apt-get -y install -qq gcc g++ cmake
 
   build_script:

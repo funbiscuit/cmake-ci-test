@@ -40,6 +40,10 @@ for:
       only:
         - image: Ubuntu
 
+    install:
+      - sudo apt-get update -qq && sudo apt-get install -qq
+      - sudo apt-get -y install -qq gcc g++ cmake
+
     build_script:
       - echo Ubuntu build script
       - mkdir build

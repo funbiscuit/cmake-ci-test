@@ -2,25 +2,26 @@
 version: 1.0.{build}
 
 image:
-  - Visual Studio 2019
+  - Visual Studio 2017
   - Ubuntu1604
 
 platform:
   - x64
 
 environment:
-  QT_DIR_WIN_64: C:\Qt\5.12.7\msvc2017_64
-  QT_DIR_WIN_32: C:\Qt\5.12.7\msvc2017
+  QT_DIR_WIN_64: C:\Qt\5.12.6\msvc2017_64
+  QT_DIR_WIN_32: C:\Qt\5.12.6\msvc2017
 
 for:
 -
   matrix:
     only:
-      - image: Visual Studio 2019
+      - image: Visual Studio 2017
 
   init:
     - ver
     - cmake --version
+    - cmake -h
 
   build_script:
     - md build_msvc15_x64

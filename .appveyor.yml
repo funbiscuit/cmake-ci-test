@@ -50,22 +50,30 @@ for:
     - md bin_msvc14_x64\styles
     # copy executable and dll's for msvc14-x64
     - copy build_msvc14_x64\Release\cmake_test.exe bin_msvc14_x64\cmake_test.exe
-    - for %I in (Qt5Core.dll Qt5Gui.dll Qt5Widgets.dll) do copy %QT_DIR_WIN_14_64%\bin\%I bin_msvc14_x64\
+    - copy %QT_DIR_WIN_14_64%\bin\Qt5Core.dll bin_msvc14_x64\Qt5Core.dll
+    - copy %QT_DIR_WIN_14_64%\bin\Qt5Gui.dll bin_msvc14_x64\Qt5Gui.dll
+    - copy %QT_DIR_WIN_14_64%\bin\Qt5Widgets.dll bin_msvc14_x64\Qt5Widgets.dll
     - copy %QT_DIR_WIN_14_64%\plugins\platforms\qwindows.dll bin_msvc14_x64\platforms\qwindows.dll
     - copy %QT_DIR_WIN_14_64%\plugins\styles\qwindowsvistastyle.dll bin_msvc14_x64\styles\qwindowsvistastyle.dll
     # copy executable and dll's for msvc14-x86
     - copy build_msvc14_x86\Release\cmake_test.exe bin_msvc14_x86\cmake_test.exe
-    - for %I in (Qt5Core.dll Qt5Gui.dll Qt5Widgets.dll) do copy %QT_DIR_WIN_14_32%\bin\%I bin_msvc14_x86\
+    - copy %QT_DIR_WIN_14_32%\bin\Qt5Core.dll bin_msvc14_x86\Qt5Core.dll
+    - copy %QT_DIR_WIN_14_32%\bin\Qt5Gui.dll bin_msvc14_x86\Qt5Gui.dll
+    - copy %QT_DIR_WIN_14_32%\bin\Qt5Widgets.dll bin_msvc14_x86\Qt5Widgets.dll
     - copy %QT_DIR_WIN_14_32%\plugins\platforms\qwindows.dll bin_msvc14_x86\platforms\qwindows.dll
     - copy %QT_DIR_WIN_14_32%\plugins\styles\qwindowsvistastyle.dll bin_msvc14_x86\styles\qwindowsvistastyle.dll
     # copy executable and dll's for msvc12-x64
     - copy build_msvc12_x64\Release\cmake_test.exe bin_msvc12_x64\cmake_test.exe
-    - for %I in (Qt5Core.dll Qt5Gui.dll Qt5Widgets.dll) do copy %QT_DIR_WIN_12_64%\bin\%I bin_msvc12_x64\
+    - copy %QT_DIR_WIN_12_64%\bin\Qt5Core.dll bin_msvc12_x64\Qt5Core.dll
+    - copy %QT_DIR_WIN_12_64%\bin\Qt5Gui.dll bin_msvc12_x64\Qt5Gui.dll
+    - copy %QT_DIR_WIN_12_64%\bin\Qt5Widgets.dll bin_msvc12_x64\Qt5Widgets.dll
     - copy %QT_DIR_WIN_12_64%\plugins\platforms\qwindows.dll bin_msvc12_x64\platforms\qwindows.dll
     - copy %QT_DIR_WIN_12_64%\plugins\styles\qwindowsvistastyle.dll bin_msvc12_x64\styles\qwindowsvistastyle.dll
     # copy executable and dll's for msvc12-x86
     - copy build_msvc12_x86\Release\cmake_test.exe bin_msvc12_x86\cmake_test.exe
-    - for %I in (Qt5Core.dll Qt5Gui.dll Qt5Widgets.dll) do copy %QT_DIR_WIN_12_32%\bin\%I bin_msvc12_x86\
+    - copy %QT_DIR_WIN_12_32%\bin\Qt5Core.dll bin_msvc12_x86\Qt5Core.dll
+    - copy %QT_DIR_WIN_12_32%\bin\Qt5Gui.dll bin_msvc12_x86\Qt5Gui.dll
+    - copy %QT_DIR_WIN_12_32%\bin\Qt5Widgets.dll bin_msvc12_x86\Qt5Widgets.dll
     - copy %QT_DIR_WIN_12_32%\plugins\platforms\qwindows.dll bin_msvc12_x86\platforms\qwindows.dll
     - copy %QT_DIR_WIN_12_32%\plugins\styles\qwindowsvistastyle.dll bin_msvc12_x86\styles\qwindowsvistastyle.dll
 

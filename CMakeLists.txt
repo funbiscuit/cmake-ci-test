@@ -27,3 +27,11 @@ target_include_directories(cmake_test PRIVATE
         )
 target_sources(cmake_test PRIVATE src/main.cpp src/mainwindow.cpp)
 
+if( NOT WIN32 )
+    install(FILES res/cmake_test.desktop
+            DESTINATION share/applications/)
+    install(FILES res/cmake_test.svg
+            DESTINATION share/icons/hicolor/scalable/apps)
+endif()
+
+install(TARGETS cmake_test DESTINATION "bin")

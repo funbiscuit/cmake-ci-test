@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=AppTest
+Exec=cmake_test
+Icon=cmake_test
+Categories=Utility;

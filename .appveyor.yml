@@ -57,35 +57,34 @@ for:
     - mkdir tools && cd tools
     # we use wget to fetch the cmake binaries
     - wget --no-check-certificate https://cmake.org/files/v3.17/cmake-3.17.1-Linux-x86_64.tar.gz
-    # this is optional, but useful:
-    # do a quick md5 check to ensure that the archive we downloaded did not get compromised
-    - echo "07D988E7144C435A525621C9CDEA6245 *cmake-3.17.1-Linux-x86_64.tar.gz" > cmake_md5.txt
-    - md5sum -c cmake_md5.txt
+    - wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+    - wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
     # extract the binaries; the output here is quite lengthy,
-    # so we swallow it to not clutter up the travis console
+    # so we swallow it to not clutter up the console
     - tar -xvf cmake-3.17.1-Linux-x86_64.tar.gz > /dev/null
     - mv cmake-3.17.1-Linux-x86_64 cmake-install
+    - chmod a+x linuxdeploy-x86_64.AppImage linuxdeploy-plugin-qt-x86_64.AppImage
     # add both the top-level directory and the bin directory from the archive
     # to the system PATH. By adding it to the front of the path we hide the
     # preinstalled CMake with our own.
     - cd ..
-    - PATH=tools/cmake-install:tools/cmake-install/bin:$PATH
+    - PATH=tools:tools/cmake-install:tools/cmake-install/bin:$PATH
 #    - sh: sudo apt-get -y install -qq gcc g++ cmake
 
   build_script:
-    - sh: echo Ubuntu build script
-    - sh: mkdir build
-    - sh: cd build
-    - sh: cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
-    - sh: cmake --build .
-    - sh: cd ..
-    - sh: mkdir -p bin
-    - sh: cp build/cmake_test bin/cmake_test
+    - echo Ubuntu build script
+    - mkdir build
+    - cd build
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+    - make
+    - make install DESTDIR=AppDir
+    - linuxdeploy-x86_64.AppImage --appdir AppDir --plugin qt --output appimage
+    - mv AppTest*.AppImage AppTest-x86_64.AppImage
 
   artifacts:
-    - path: bin
-      type: zip
-      name: App-linux-x64
+    - path: build/AppTest-x86_64.AppImage
+      type: File
+      name: AppTest-x86_64.AppImage
 
 
 deploy:
@@ -94,7 +93,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: 6xHQBZVK+RtxmddurGPIg7Kx5vecSN1vVxwbv35EQmsIey4DXDXYhwAW/yLXbNLJ
-  artifact: App-msvc14-x64, App-linux-x64
+  artifact: App-msvc14-x64, AppTest-x86_64.AppImage
   draft: false
   prerelease: false
   tag: $(APPVEYOR_REPO_TAG_NAME)

@@ -1,8 +1,12 @@
+
+version: 1.0.{build}
+
 image:
   - Visual Studio 2015
   - Ubuntu
 
-version: 1.0.{build}
+platform:
+  - x64
 
 environment:
   matrix:
@@ -10,54 +14,62 @@ environment:
       QT_DIR: C:\Qt\5.13.2\msvc2015_64
 
 for:
-  -
-    matrix:
-      only:
-        - image: Visual Studio 2015
+-
+  matrix:
+    only:
+      - image: Visual Studio 2015
 
-    build_script:
-      - cmd: md build
-      - cmd: cd build
-      - cmd: cmake -DQT_WIN_PATH=%QT_DIR% -G "Visual Studio 14 2015 Win64" ..
-      - cmd: cmake --build . --config Release
-      - cmd: cd ..
-      - cmd: md bin
-      - cmd: md bin\platforms
-      - cmd: md bin\styles
-      - cmd: copy build\Release\cmake_test.exe bin\cmake_test.exe
-      - cmd: copy %QT_DIR%\bin\Qt5Core.dll bin\Qt5Core.dll
-      - cmd: copy %QT_DIR%\bin\Qt5Gui.dll bin\Qt5Gui.dll
-      - cmd: copy %QT_DIR%\bin\Qt5Widgets.dll bin\Qt5Widgets.dll
-      - cmd: copy %QT_DIR%\plugins\platforms\qwindows.dll bin\platforms\qwindows.dll
-      - cmd: copy %QT_DIR%\plugins\styles\qwindowsvistastyle.dll bin\styles\qwindowsvistastyle.dll
+  init:
+    - ver
+    - cmake --version
 
-    artifacts:
-      - path: bin
-        type: zip
-        name: App-msvc14-x64
-  -
-    matrix:
-      only:
-        - image: Ubuntu
+  build_script:
+    - cmd: md build
+    - cmd: cd build
+    - cmd: cmake -DQT_WIN_PATH=%QT_DIR% -G "Visual Studio 14 2015 Win64" ..
+    - cmd: cmake --build . --config Release
+    - cmd: cd ..
+    - cmd: md bin
+    - cmd: md bin\platforms
+    - cmd: md bin\styles
+    - cmd: copy build\Release\cmake_test.exe bin\cmake_test.exe
+    - cmd: copy %QT_DIR%\bin\Qt5Core.dll bin\Qt5Core.dll
+    - cmd: copy %QT_DIR%\bin\Qt5Gui.dll bin\Qt5Gui.dll
+    - cmd: copy %QT_DIR%\bin\Qt5Widgets.dll bin\Qt5Widgets.dll
+    - cmd: copy %QT_DIR%\plugins\platforms\qwindows.dll bin\platforms\qwindows.dll
+    - cmd: copy %QT_DIR%\plugins\styles\qwindowsvistastyle.dll bin\styles\qwindowsvistastyle.dll
 
-    install:
-      - sh: sudo apt-get update -qq && sudo apt-get install -qq
-      - sh: sudo apt-get -y install -qq gcc g++ cmake
+  artifacts:
+    - path: bin
+      type: zip
+      name: App-msvc14-x64
+-
+  matrix:
+    only:
+      - image: Ubuntu
 
-    build_script:
-      - sh: echo Ubuntu build script
-      - sh: mkdir build
-      - sh: cd build
-      - sh: cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
-      - sh: cmake --build .
-      - sh: cd ..
-      - sh: mkdir -p bin
-      - sh: cp build/cmake_test bin/cmake_test
+  init:
+    - cmake --version
+    - gcc -v
 
-    artifacts:
-      - path: bin
-        type: zip
-        name: App-linux-x64
+  install:
+    - sh: sudo apt-get update -qq && sudo apt-get install -qq
+    - sh: sudo apt-get -y install -qq gcc g++ cmake
+
+  build_script:
+    - sh: echo Ubuntu build script
+    - sh: mkdir build
+    - sh: cd build
+    - sh: cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
+    - sh: cmake --build .
+    - sh: cd ..
+    - sh: mkdir -p bin
+    - sh: cp build/cmake_test bin/cmake_test
+
+  artifacts:
+    - path: bin
+      type: zip
+      name: App-linux-x64
 
 
 deploy:

@@ -52,7 +52,7 @@ for:
 
   install:
     - sh: sudo apt-get update -qq && sudo apt-get install -qq
-    - sh: sudo apt-get -y install -qq gcc g++ cmake
+#    - sh: sudo apt-get -y install -qq gcc g++ cmake
 
   build_script:
     - sh: echo Ubuntu build script

@@ -3,7 +3,7 @@ version: 1.0.{build}
 
 image:
   - Visual Studio 2015
-  - Ubuntu
+  - Ubuntu1604
 
 platform:
   - x64
@@ -44,14 +44,32 @@ for:
 -
   matrix:
     only:
-      - image: Ubuntu
+      - image: Ubuntu1604
 
   init:
     - cmake --version
     - gcc -v
 
   install:
-    - sh: sudo apt-get update -qq && sudo apt-get install -qq
+    - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+    - sudo apt-get update -qq
+    - sudo apt-get install qtbase5-dev libqt5svg5-dev
+    - mkdir tools && cd tools
+    # we use wget to fetch the cmake binaries
+    - wget --no-check-certificate https://cmake.org/files/v3.17/cmake-3.17.1-Linux-x86_64.tar.gz
+    # this is optional, but useful:
+    # do a quick md5 check to ensure that the archive we downloaded did not get compromised
+    - echo "07D988E7144C435A525621C9CDEA6245 *cmake-3.17.1-Linux-x86_64.tar.gz" > cmake_md5.txt
+    - md5sum -c cmake_md5.txt
+    # extract the binaries; the output here is quite lengthy,
+    # so we swallow it to not clutter up the travis console
+    - tar -xvf cmake-3.17.1-Linux-x86_64.tar.gz > /dev/null
+    - mv cmake-3.17.1-Linux-x86_64 cmake-install
+    # add both the top-level directory and the bin directory from the archive
+    # to the system PATH. By adding it to the front of the path we hide the
+    # preinstalled CMake with our own.
+    - cd ..
+    - PATH=tools/cmake-install:tools/cmake-install/bin:$PATH
 #    - sh: sudo apt-get -y install -qq gcc g++ cmake
 
   build_script:

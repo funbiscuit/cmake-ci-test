@@ -68,7 +68,7 @@ for:
     # to the system PATH. By adding it to the front of the path we hide the
     # preinstalled CMake with our own.
     - cd ..
-    - PATH=tools:tools/cmake-install:tools/cmake-install/bin:$PATH
+    - PATH=tools/cmake-install:tools/cmake-install/bin:$PATH
 #    - sh: sudo apt-get -y install -qq gcc g++ cmake
 
   build_script:
@@ -78,8 +78,9 @@ for:
     - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
     - make
     - make install DESTDIR=AppDir
-    - linuxdeploy-x86_64.AppImage --appdir AppDir --plugin qt --output appimage
+    - ../tools/linuxdeploy-x86_64.AppImage --appdir AppDir --plugin qt --output appimage
     - mv AppTest*.AppImage AppTest-x86_64.AppImage
+    - cd ..
 
   artifacts:
     - path: build/AppTest-x86_64.AppImage

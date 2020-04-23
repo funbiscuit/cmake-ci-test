@@ -12,24 +12,28 @@ for($i = 0; $i -lt $vc_arch.length; $i++){
     } else {
        $qt_path = "$env:QT_DIR_WIN_32"
     }
+    
+    $vc = $sufx[$i]
 
-    mkdir "build_$sufx[$i]"
-    cd "build_$sufx[$i]"
+    mkdir "build_$vc"
+    cd "build_$vc"
     cmake -DQT_WIN_PATH="$env:QT_DIR_WIN_64" -G "Visual Studio 15 2017$vc_arch" ..
     cmake --build . --config Release
     cd ..
 
     # create folders for binaries
-    mkdir "bin_$sufx[$i]"
-    mkdir "bin_$sufx[$i]\platforms"
-    mkdir "bin_$sufx[$i]\styles"
+    mkdir "bin_$vc"
+    mkdir "bin_$vc\platforms"
+    mkdir "bin_$vc\styles"
 
     # copy executable and dll's for msvc15-x64
-    copy "build_$sufx[$i]\Release\cmake_test.exe" "bin_$sufx[$i]\cmake_test.exe"
+    copy "build_$vc\Release\cmake_test.exe" "bin_$vc\cmake_test.exe"
     for($j = 0; $j -lt $qt_dlls.length; $j++){
-        copy "$qt_path\bin\$qt_dlls[$j]" "bin_$sufx[$i]\$qt_dlls[$j]"
+        $dll = $qt_dlls[$j]
+        copy "$qt_path\bin\$dll" "bin_$vc\$dll"
     }
     for($j = 0; $j -lt $qt_plug.length; $j++){
-        copy "$qt_path\plugins\$qt_plug[$j]" "bin_$sufx[$i]\$qt_plug[$j]"
+        $dll = $qt_plug[$j]
+        copy "$qt_path\plugins\$dll" "bin_$vc\$dll"
     }
 }

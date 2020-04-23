@@ -1,34 +1,35 @@
 $ErrorActionPreference = 'Stop';
 
-mkdir build_msvc15_x64
-cd build_msvc15_x64
-cmake -DQT_WIN_PATH="$env:QT_DIR_WIN_64" -G "Visual Studio 15 2017 Win64" ..
-cmake --build . --config Release
-cd ..
-mkdir build_msvc15_x86
-cd build_msvc15_x86
-cmake -DQT_WIN_PATH="$env:QT_DIR_WIN_32" -G "Visual Studio 15 2017" ..
-cmake --build . --config Release
-cd ..
-# create folders for binaries
-mkdir bin_msvc15_x64
-mkdir bin_msvc15_x64\platforms
-mkdir bin_msvc15_x64\styles
-mkdir bin_msvc15_x86
-mkdir bin_msvc15_x86\platforms
-mkdir bin_msvc15_x86\styles
-# copy executable and dll's for msvc15-x64
-copy build_msvc15_x64\Release\cmake_test.exe bin_msvc15_x64\cmake_test.exe
-copy "$env:QT_DIR_WIN_64\bin\Qt5Core.dll" bin_msvc15_x64\Qt5Core.dll
-copy "$env:QT_DIR_WIN_64\bin\Qt5Gui.dll" bin_msvc15_x64\Qt5Gui.dll
-copy "$env:QT_DIR_WIN_64\bin\Qt5Widgets.dll" bin_msvc15_x64\Qt5Widgets.dll
-copy "$env:QT_DIR_WIN_64\plugins\platforms\qwindows.dll" bin_msvc15_x64\platforms\qwindows.dll
-copy "$env:QT_DIR_WIN_64\plugins\styles\qwindowsvistastyle.dll" bin_msvc15_x64\styles\qwindowsvistastyle.dll
-# copy executable and dll's for msvc15-x86
-copy build_msvc15_x86\Release\cmake_test.exe bin_msvc15_x86\cmake_test.exe
-copy "$env:QT_DIR_WIN_32\bin\Qt5Core.dll" bin_msvc15_x86\Qt5Core.dll
-copy "$env:QT_DIR_WIN_32\bin\Qt5Gui.dll" bin_msvc15_x86\Qt5Gui.dll
-copy "$env:QT_DIR_WIN_32\bin\Qt5Widgets.dll" bin_msvc15_x86\Qt5Widgets.dll
-copy "$env:QT_DIR_WIN_32\plugins\platforms\qwindows.dll" bin_msvc15_x86\platforms\qwindows.dll
-copy "$env:QT_DIR_WIN_32\plugins\styles\qwindowsvistastyle.dll" bin_msvc15_x86\styles\qwindowsvistastyle.dll
+$vc_arch = @(" Win64", "") #empty for Win32
+$sufx = @("msvc15_x64", "msvc15_x86")
 
+$qt_dlls = @("Qt5Core.dll","Qt5Gui.dll","Qt5Widgets.dll")
+$qt_plug = @("platforms\qwindows.dll","styles\qwindowsvistastyle.dll")
+
+for($i = 0; $i -lt $vc_arch.length; $i++){
+    if($i -eq 0){
+       $qt_path = "$env:QT_DIR_WIN_64"
+    } else {
+       $qt_path = "$env:QT_DIR_WIN_32"
+    }
+
+    mkdir "build_$sufx[$i]"
+    cd "build_$sufx[$i]"
+    cmake -DQT_WIN_PATH="$env:QT_DIR_WIN_64" -G "Visual Studio 15 2017$vc_arch" ..
+    cmake --build . --config Release
+    cd ..
+
+    # create folders for binaries
+    mkdir "bin_$sufx[$i]"
+    mkdir "bin_$sufx[$i]\platforms"
+    mkdir "bin_$sufx[$i]\styles"
+
+    # copy executable and dll's for msvc15-x64
+    copy "build_$sufx[$i]\Release\cmake_test.exe" "bin_$sufx[$i]\cmake_test.exe"
+    for($j = 0; $j -lt $qt_dlls.length; $j++){
+        copy "$qt_path\bin\$qt_dlls[$j]" "bin_$sufx[$i]\$qt_dlls[$j]"
+    }
+    for($j = 0; $j -lt $qt_plug.length; $j++){
+        copy "$qt_path\plugins\$qt_plug[$j]" "bin_$sufx[$i]\$qt_plug[$j]"
+    }
+}

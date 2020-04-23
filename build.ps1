@@ -14,10 +14,11 @@ for($i = 0; $i -lt $vc_arch.length; $i++){
     }
     
     $vc = $sufx[$i]
+    $vc_gen_sfx = $vc_arch[$i]
 
     mkdir "build_$vc"
     cd "build_$vc"
-    cmake -DQT_WIN_PATH="$env:QT_DIR_WIN_64" -G "Visual Studio 15 2017$vc_arch" ..
+    cmake -DQT_WIN_PATH="$env:QT_DIR_WIN_64" -G "Visual Studio 15 2017$vc_gen_sfx" ..
     cmake --build . --config Release
     cd ..
 

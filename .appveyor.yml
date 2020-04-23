@@ -22,6 +22,10 @@ for:
     - ver
     - cmake --version
 
+  cache:
+    - build_msvc15_x64 -> CMakeLists.txt, **\main.cpp
+    - build_msvc15_x86 -> CMakeLists.txt, **\main.cpp
+
   build_script:
     - ps: ./build.ps1
 

@@ -23,7 +23,7 @@ for:
     - cmake --version
 
   build_script:
-    - ps: build.ps1
+    - ps: ./build.ps1
     - md build_msvc15_x64
     - cd build_msvc15_x64
     - cmake -DQT_WIN_PATH=%QT_DIR_WIN_64% -G "Visual Studio 15 2017 Win64" ..

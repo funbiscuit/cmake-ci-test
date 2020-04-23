@@ -21,6 +21,7 @@ for:
   init:
     - ver
     - cmake --version
+    - ps: Get-ChildItem env:
 
   build_script:
     - md build_msvc15_x64
